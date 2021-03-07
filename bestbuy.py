@@ -1,20 +1,38 @@
-import time
-
 import requests
-from requests_html import AsyncHTMLSession, HTMLSession
+from requests_html import HTMLSession
 from selenium import webdriver
-from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 baseUrl = "https://bestbuy.com/"
 
 driver = webdriver.Chrome()
 driver.get(baseUrl)
 
-if driver.find_element_by_class_name("c-close-icon"):
-    driver.find_element_by_class_name("c-close-icon").click()
+modal_close_button = WebDriverWait(driver, 5).until(
+    EC.element_to_be_clickable(
+        (By.CSS_SELECTOR, ".widgets-view-email-modal .c-modal-grid .c-close-icon")
+    )
+)
 
-searchBar = driver.find_element_by_tag_name("input").send_keys("ps5 console")
-driver.find_element_by_class_name("header-search-button").click()
+print("Closing modal...")
+
+modal_close_button.click()
+
+search_bar = WebDriverWait(driver, 5).until(
+    EC.element_to_be_clickable((By.XPATH, "//*[@placeholder='Search Best Buy']"))
+)
+
+print("typing into search bar...")
+search_bar.click()
+search_bar.send_keys("ps5 console")
+
+search_button = WebDriverWait(driver, 5).until(
+    EC.element_to_be_clickable((By.XPATH, "//*[@title='submit search']"))
+)
+print("clicking enter for search...")
+search_button.click()
 searchUrl = driver.current_url
 
 try:
