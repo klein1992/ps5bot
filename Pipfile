@@ -11,6 +11,9 @@ requests-html = "*"
 black = "*"
 isort = "*"
 flake8 = "*"
+mypy = "*"
+pytest = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.9"
