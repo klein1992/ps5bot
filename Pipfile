@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 selenium = "*"
 requests-html = "*"
+chromedriver-py = "*"
 
 [dev-packages]
 black = "*"

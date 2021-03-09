@@ -1,4 +1,5 @@
 import requests
+from chromedriver_py import binary_path
 from requests_html import HTMLSession
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -7,7 +8,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 baseUrl = "https://bestbuy.com/"
 
-driver = webdriver.Chrome()
+driver = webdriver.Chrome(executable_path=binary_path)
 driver.get(baseUrl)
 
 modal_close_button = WebDriverWait(driver, 5).until(
