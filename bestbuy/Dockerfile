@@ -1,4 +1,5 @@
 # Adapted from https://sourcery.ai/blog/python-docker/
+
 FROM python:3.9-slim as base
 
 # Setup env
@@ -24,13 +25,14 @@ FROM base AS runtime
 COPY --from=python-deps /.venv /.venv
 ENV PATH="/.venv/bin:$PATH"
 
+# Copy scripts into final image
+COPY poll.sh bestbuy.py ./
+
+RUN chmod +x poll.sh
+
 # Create and switch to a new user
-RUN useradd --create-home appuser
-WORKDIR /home/appuser
+RUN useradd appuser
 USER appuser
 
-# Install application into container
-COPY . .
-
 # Run the application
-ENTRYPOINT ["python", "bestbuy.py"]
+ENTRYPOINT "./poll.sh"

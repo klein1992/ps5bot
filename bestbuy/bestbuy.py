@@ -7,8 +7,8 @@ searchUrl = (
 
 try:
     session = HTMLSession()
-    soldOutButton = session.get(searchUrl).html.find("button", containing="sold out")
-    print("Ready to Order" if (not soldOutButton) else "The ps5 is sold out right now")
+    isOrderable = session.get(searchUrl).html.find("button", containing="Add to Cart")
+    print("Ready to Order" if (isOrderable) else "The ps5 is sold out right now")
 
 except requests.exceptions.RequestException as e:
     print(e)
