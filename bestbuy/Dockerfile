@@ -12,7 +12,6 @@ FROM base AS python-deps
 
 # Install pipenv and compilation dependencies
 RUN pip install pipenv
-RUN apt-get update && apt-get install -y --no-install-recommends
 
 # Install python dependencies in /.venv
 COPY Pipfile .
@@ -27,7 +26,6 @@ ENV PATH="/.venv/bin:$PATH"
 
 # Copy scripts into final image
 COPY poll.sh bestbuy.py ./
-
 RUN chmod +x poll.sh
 
 # Create and switch to a new user
