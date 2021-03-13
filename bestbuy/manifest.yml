@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bb
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: bestbuy
+  template:
+    metadata:
+      labels:
+        app: bestbuy
+    spec:
+      containers:
+      - name: bbcontainer
+        image: public.ecr.aws/h2r1m7n0/ps5monitor
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: bb-config
+        - secretRef:
+            name: bb-aws-topic
+        volumeMounts:
+        - name: aws-secret
+          mountPath: "/aws/"
+          readOnly: true
+      volumes:
+      - name: aws-secret
+        secret:
+          secretName: bb-secret
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bb-ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: bb-service
+            port:
+              number: 80
+---
+apiVersion: v1
+kind: Service 
+metadata:
+  name: bb-service
+spec:
+  selector: 
+    app: bestbuy
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bb-config
+data:
+  SEARCH_URL: "https://www.bestbuy.com/site/sony-playstation-5-console/6426149.p?skuId=6426149"
+  AWS_DEFAULT_REGION: "us-east-1"
+  AWS_CONFIG_FILE: "/aws/credentials"
+---
+apiVersion: v1
+kind: Secret 
+metadata:
+  name: bb-aws-topic
+stringData:
+  AWS_TOPIC_ARN: 
