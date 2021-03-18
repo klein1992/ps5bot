@@ -72,4 +72,4 @@ kind: Secret
 metadata:
   name: bb-aws-topic
 stringData:
-  AWS_TOPIC_ARN: 
+  AWS_TOPIC_ARN: 'arn:aws:sns:us-east-1:884707549951:PS5'
