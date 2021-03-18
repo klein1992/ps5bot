@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 requests-html = "*"
 boto3 = "*"
+selenium = "*"
+chromedriver-py = "==89.0.4389.23"
 
 [dev-packages]
 isort = "*"
