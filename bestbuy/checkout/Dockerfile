@@ -1,5 +1,4 @@
 # Adapted from https://sourcery.ai/blog/python-docker/
-
 FROM python:3.9-slim as base
 
 # Setup env
@@ -18,14 +17,23 @@ COPY Pipfile .
 COPY Pipfile.lock .
 RUN PIPENV_VENV_IN_PROJECT=1 pipenv install --deploy
 
-FROM base AS runtime
+FROM selenium/standalone-chrome:88.0 AS runtime
+
+USER root
+
+# Install python and pipenv
+RUN sudo apt-get update -y
+# RUN sudo apt-get install -y software-properties-common
+# RUN sudo add-apt-repository ppa:deadsnakes/ppa
+RUN sudo apt-get install -y python3.9 python3-pip
+RUN pip3 install pipenv
 
 # Copy virtual env from python-deps stage
 COPY --from=python-deps /.venv /.venv
 ENV PATH="/.venv/bin:$PATH"
 
 # Copy scripts into final image
-COPY poll.sh bestbuy.py ./
+COPY poll.sh bestbuy-checkout.py ./
 RUN chmod +x poll.sh
 
 # Create and switch to a new user
@@ -34,3 +42,5 @@ USER appuser
 
 # Run the application
 ENTRYPOINT "./poll.sh"
+
+
