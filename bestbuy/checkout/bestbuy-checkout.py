@@ -15,14 +15,16 @@ baseUrl = "https://www.bestbuy.com/site/demons-souls-standard-edition-playstatio
 # "https://www.bestbuy.com/site/sony-playstation-5-console/6426149.p?skuId=6426149"
 
 chrome_options = Options()
-# chrome_options.add_argument('--no-sandbox')
-# chrome_options.add_argument('--window-size=1420,1080')
-# chrome_options.add_argument('--headless')
-# chrome_options.add_argument('--disable-gpu')
+chrome_options.add_argument('--no-sandbox')
+chrome_options.add_argument("--disable-extensions")
+chrome_options.add_argument('--window-size=1420,1080')
+chrome_options.add_argument('--headless')
+chrome_options.add_argument('--disable-dev-shm-usage')
+chrome_options.add_argument('--disable-gpu')
 
-# chrome_options.add_argument('--no-proxy-server')
-# chrome_options.add_argument("--proxy-server='direct://'")
-# chrome_options.add_argument("--proxy-bypass-list=*")
+chrome_options.add_argument('--no-proxy-server')
+chrome_options.add_argument("--proxy-server='direct://'")
+chrome_options.add_argument("--proxy-bypass-list=*")
 # chrome_options.add_argument('--blink-settings=imagesEnabled=false')
 
 start_time = time.time()

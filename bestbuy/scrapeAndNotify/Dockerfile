@@ -1,9 +1,7 @@
 # Adapted from https://sourcery.ai/blog/python-docker/
-
 FROM python:3.9-slim as base
 
 # Setup env
-ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONFAULTHANDLER 1
@@ -33,4 +31,5 @@ RUN useradd appuser
 USER appuser
 
 # Run the application
-ENTRYPOINT "./poll.sh"
+ENTRYPOINT ["/bin/bash", "-c"]
+CMD ["./poll.sh"]
